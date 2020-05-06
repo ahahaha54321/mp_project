@@ -96,6 +96,13 @@
             android:layout_weight="1"
             android:text="조회" />
 
+        <Button
+            android:id="@+id/table_reset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="리셋" />
+
     </LinearLayout>
 
     <ScrollView

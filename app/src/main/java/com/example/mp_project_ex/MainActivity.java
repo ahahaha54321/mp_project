@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final DBHelper dbHelper = new DBHelper(getApplicationContext(), "MoneyBook.db", null, 1);
-
         // 테이블에 있는 모든 데이터 출력
         final TextView result = (TextView) findViewById(R.id.result);
 
@@ -80,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
         select.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                result.setText(dbHelper.getResult());
+            }
+        });
+
+        // DB에 있는 테이블 리셋
+        Button table_reset = (Button) findViewById(R.id.table_reset);
+        select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbHelper.reset();
                 result.setText(dbHelper.getResult());
             }
         });
