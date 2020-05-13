@@ -3,16 +3,29 @@ package com.example.mp_project_ex;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.Browser;
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    // DBHelper 생성자로 관리할 DB 이름과 버전 정보를 받음
+//    1. db에서 그냥 사용
+//     DBHelper 생성자로 관리할 DB 이름과 버전 정보를 받음
     public DBHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
+
+    //1. db 직접 작성
     // DB를 새로 생성할 때 호출되는 함수
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -26,6 +39,7 @@ public class DBHelper extends SQLiteOpenHelper {
         item 문자열 컬럼, price 정수형 컬럼, create_at 문자열 컬럼으로 구성된 테이블을 생성. */
         db.execSQL("CREATE TABLE MONEYBOOK (_id INTEGER PRIMARY KEY AUTOINCREMENT, item TEXT, price INTEGER, create_at TEXT);");
     }
+
 
     // DB 업그레이드를 위해 버전이 변경될 때 호출되는 함수
     @Override
@@ -82,4 +96,105 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("delete from " + "MONEYBOOK");
         db.close();
     }
+
+//
+//
+//    //---------db 가져와서 사용하기-------------------//
+//
+//    private static String TAG = "DataBaseHelper"; //Logcat에 출력할 태그이름
+//
+//    //디바이스 장치에서 데이터베이스의 경로
+//
+//    // TODO : assets 폴더에 있는 경우 "", 그 외 경로기입
+//    private static String DB_PATH = "";
+//    // TODO : assets 폴더에 있는 DB명 또는 별도의 데이터베이스 파일이름
+//    private static String DB_NAME ="sqlite_file.db";
+//
+//    private SQLiteDatabase mDataBase;
+//    private final Context mContext;
+//
+//    public DBHelper(Context context)
+//    {
+//        super(context, DB_NAME, null, 1);// 1은 데이터베이스 버젼
+//        DB_PATH = context.getApplicationInfo().dataDir + "/databases/";
+//        this.mContext = context;
+//    }
+//
+//    public void createDataBase() throws IOException
+//    {
+//        //데이터베이스가 없으면 asset폴더에서 복사해온다.
+//        boolean mDataBaseExist = checkDataBase();
+//        if(!mDataBaseExist)
+//        {
+//            this.getReadableDatabase();
+//            this.close();
+//            try
+//            {
+//                //Copy the database from assests
+//                copyDataBase();
+//                Log.e(TAG, "createDatabase database created");
+//            }
+//            catch (IOException mIOException)
+//            {
+//                throw new Error("ErrorCopyingDataBase");
+//            }
+//        }
+//    }
+//
+//    ///data/data/your package/databases/Da Name <-이 경로에서 데이터베이스가 존재하는지 확인한다
+//    private boolean checkDataBase()
+//    {
+//        File dbFile = new File(DB_PATH + DB_NAME);
+//        //Log.v("dbFile", dbFile + "   "+ dbFile.exists());
+//        return dbFile.exists();
+//    }
+//
+//    //assets폴더에서 데이터베이스를 복사한다.
+//    private void copyDataBase() throws IOException
+//    {
+//        InputStream mInput = mContext.getAssets().open(DB_NAME);
+//        String outFileName = DB_PATH + DB_NAME;
+//        OutputStream mOutput = new FileOutputStream(outFileName);
+//        byte[] mBuffer = new byte[1024];
+//        int mLength;
+//        while ((mLength = mInput.read(mBuffer))>0)
+//        {
+//            mOutput.write(mBuffer, 0, mLength);
+//        }
+//        mOutput.flush();
+//        mOutput.close();
+//        mInput.close();
+//    }
+//
+//    //데이터베이스를 열어서 쿼리를 쓸수있게만든다.
+//    public boolean openDataBase() throws SQLException
+//    {
+//        String mPath = DB_PATH + DB_NAME;
+//        //Log.v("mPath", mPath);
+//        mDataBase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.CREATE_IF_NECESSARY);
+//        //mDataBase = SQLiteDatabase.openDatabase(mPath, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
+//        return mDataBase != null;
+//    }
+//
+//    @Override
+//    public synchronized void close()
+//    {
+//        if(mDataBase != null)
+//            mDataBase.close();
+//        super.close();
+//    }
+//
+//    @Override
+//    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+//
+//    }
+//
+//    @Override
+//    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+//
+//    }
+////[출처] 안드로이드 - SQLite DB 만들고 테이블 데이터 가져오기, DB Browser|작성자 조길상
+//
+
+
 }
